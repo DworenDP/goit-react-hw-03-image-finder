@@ -1,0 +1,25 @@
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  padding-top: 25px;
+  padding-bottom: 45px;
+}
+
+.loadMoreBtn {
+  padding: 10px 16px;
+  border-radius: 7px;
+
+  text-align: center;
+  display: inline-block;
+
+  text-decoration: none;
+
+  font-family: inherit;
+  font-size: 22px;
+  line-height: 24px;
+  font-style: normal;
+  font-weight: 500;
+  min-width: 180px;
+}
+
+
