@@ -26,16 +26,12 @@ export class ImageGallery extends Component {
     tags: '',
   };
 
-  handleLoadMore = () => {
-    this.setState(prevState => ({ pageNumber: prevState.pageNumber + 1 }));
-  };
-
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.inputValue;
     const nextName = this.props.inputValue;
 
     if (prevName !== nextName) {
-      this.setState({ images: [], status: STATUS.PENDING });
+      this.setState({ images: [], pageNumber: 1, status: STATUS.PENDING });
     }
     if (
       prevName !== nextName ||
@@ -62,6 +58,10 @@ export class ImageGallery extends Component {
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
+  };
+
+  handleLoadMore = () => {
+    this.setState(prevState => ({ pageNumber: prevState.pageNumber + 1 }));
   };
 
   render() {
