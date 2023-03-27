@@ -34,11 +34,16 @@ export class ImageGallery extends Component {
     }));
   };
 
+  reset = () => {
+    this.setState({ images: [], pageNumber: 1 });
+  };
+
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.inputValue;
     const nextName = this.props.inputValue;
 
     if (prevName !== nextName) {
+      this.reset();
       this.setState({ images: [], status: STATUS.PENDING });
     }
     if (
