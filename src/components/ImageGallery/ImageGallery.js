@@ -24,6 +24,14 @@ export class ImageGallery extends Component {
     showModal: false,
     largeImageUrl: '',
     tags: '',
+    isLoadingMore: false,
+  };
+
+  handleLoadMore = () => {
+    this.setState(prevState => ({
+      pageNumber: prevState.pageNumber + 1,
+      isLoadingMore: true,
+    }));
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -31,7 +39,7 @@ export class ImageGallery extends Component {
     const nextName = this.props.inputValue;
 
     if (prevName !== nextName) {
-      this.setState({ images: [], pageNumber: 1, status: STATUS.PENDING });
+      this.setState({ images: [], status: STATUS.PENDING });
     }
     if (
       prevName !== nextName ||
@@ -43,6 +51,7 @@ export class ImageGallery extends Component {
             images: [...prevState.images, ...e],
             status: e.length === 0 ? STATUS.REJECTED : STATUS.RESOLVED,
             loadMore: 12 - e.length,
+            isLoadingMore: false,
           }));
         })
         .catch(error => console.error(error));
@@ -60,19 +69,27 @@ export class ImageGallery extends Component {
     }));
   };
 
-  handleLoadMore = () => {
-    this.setState(prevState => ({ pageNumber: prevState.pageNumber + 1 }));
-  };
-
   render() {
-    const { images, status, loadMore, largeImageUrl, showModal, tags } =
-      this.state;
+    const {
+      images,
+      status,
+      loadMore,
+      largeImageUrl,
+      showModal,
+      tags,
+      isLoadingMore,
+    } = this.state;
     const { inputValue } = this.props;
 
     if (status === STATUS.RESOLVED) {
       return (
         <ImageGalleryItem images={images} loadLargeUrl={this.getLargeUrl}>
-          {loadMore === 0 && <Button onLoadMore={this.handleLoadMore} />}
+          {loadMore === 0 &&
+            (isLoadingMore ? (
+              <Loader />
+            ) : (
+              <Button onLoadMore={this.handleLoadMore} />
+            ))}
           {showModal && (
             <Modal
               onClose={this.toggleModal}
