@@ -35,7 +35,7 @@ export class ImageGallery extends Component {
   };
 
   reset = () => {
-    this.setState({ images: [], pageNumber: 1 });
+    this.setState({ images: [], pageNumber: 1, status: STATUS.PENDING });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -44,13 +44,13 @@ export class ImageGallery extends Component {
 
     if (prevName !== nextName) {
       this.reset();
-      this.setState({ images: [], status: STATUS.PENDING });
     }
     if (
       prevName !== nextName ||
       prevState.pageNumber !== this.state.pageNumber
     ) {
-      getImages(nextName, this.state.pageNumber)
+      const { pageNumber } = this.state;
+      getImages(nextName, pageNumber)
         .then(e => {
           this.setState(prevState => ({
             images: [...prevState.images, ...e],
