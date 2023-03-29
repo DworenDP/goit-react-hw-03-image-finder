@@ -44,11 +44,21 @@ export class ImageGallery extends Component {
 
     if (prevName !== nextName) {
       this.reset();
+      const { pageNumber } = this.state;
+      if (pageNumber === 1) {
+        getImages(nextName, pageNumber)
+          .then(e => {
+            this.setState({
+              images: [...e],
+              status: e.length === 0 ? STATUS.REJECTED : STATUS.RESOLVED,
+              loadMore: 12 - e.length,
+              isLoadingMore: false,
+            });
+          })
+          .catch(error => console.error(error));
+      }
     }
-    if (
-      prevName !== nextName ||
-      prevState.pageNumber !== this.state.pageNumber
-    ) {
+    if (prevState.pageNumber !== this.state.pageNumber) {
       const { pageNumber } = this.state;
       getImages(nextName, pageNumber)
         .then(e => {
