@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getImages } from 'srvices/fetchImages';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+
 import { Error } from 'components/Error/Error';
 import { Loader } from 'components/Loader/Loader';
 import { Button } from 'components/Button/Button';
